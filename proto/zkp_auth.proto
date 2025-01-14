@@ -8,8 +8,8 @@ package zkp_auth;
 */
 message RegisterRequest {
     string user = 1;
-    byte y1 = 2;
-    byte y2 = 3;
+    bytes y1 = 2;
+    bytes y2 = 3;
 }
 
 message RegisterResponse {
@@ -24,8 +24,8 @@ message RegisterResponse {
 */
 message AuthenticationChallengeRequest {
     string user = 1;
-    byte r1 = 2;
-    byte r2 = 3;
+    bytes r1 = 2;
+    bytes r2 = 3;
 }
 
 message AuthenticationChallengeResponse {
@@ -39,7 +39,7 @@ message AuthenticationChallengeResponse {
 */
 message AuthenticationAnswerRequest {
     string auth_id = 1;
-    byte s = 2;
+    bytes s = 2;
 }
 
 message AuthenticationAnswerResponse {
