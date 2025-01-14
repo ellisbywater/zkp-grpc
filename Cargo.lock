@@ -1144,7 +1144,9 @@ version = "0.1.0"
 dependencies = [
  "hex",
  "num-bigint",
+ "prost",
  "rand",
+ "tokio",
  "tonic",
  "tonic-build",
 ]

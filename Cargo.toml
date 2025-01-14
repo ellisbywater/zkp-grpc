@@ -6,8 +6,18 @@ edition = "2021"
 [dependencies]
 hex = "0.4.3"
 num-bigint = { version = "0.4", features = ["rand"] }
+prost = "0.13.4"
 rand = "0.8.5"
+tokio = {version = "1.43.0", features = ["macros", "rt-multi-threaded"]}
 tonic = "0.12.3"
 
 [build-dependencies]
 tonic-build = "0.12"
+
+[[bin]]
+name = "server"
+path = "./src/server.rs"
+
+[[bin]]
+name = "client"
+path = "./src/client.rs"
