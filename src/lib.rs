@@ -32,6 +32,12 @@ impl ZKP {
         let cond2 = *r2 == (&self.beta.modpow(s, &self.p) * y2.modpow(c, &self.p)).modpow(&BigUint::from(1u32), &self.p);
         cond1 && cond2
     }
+
+    pub fn generate_random_below(limit: &BigUint) -> BigUint {
+        let mut rng = rand::thread_rng();
+        let random = rng.gen_biguint_below(limit);
+        random
+    }
 }
 
 // // alpha ^ x mod p
@@ -57,11 +63,7 @@ impl ZKP {
 //     cond1 && cond2
 // }
 
-pub fn generate_random_below(limit: &BigUint) -> BigUint {
-    let mut rng = rand::thread_rng();
-    let random = rng.gen_biguint_below(limit);
-    random
-}
+
 
 mod test {
     use super::*;
@@ -119,38 +121,9 @@ mod test {
         };
 
         let x = BigUint::from(6u32);
-        let k = generate_random_below(&q);
+        let k = ZKP::generate_random_below(&q);
 
-        let c = generate_random_below( &q);
-
-        let y1 = ZKP::exponentiate(&alpha, &x, &p);
-        let y2 = ZKP::exponentiate(&beta, &x, &p);
-
-        let r1 = ZKP::exponentiate(&alpha, &k, &p);
-        let r2 = ZKP::exponentiate(&beta, &k, &p);
-        let s = zkp.solve(&k, &c, &x);
-
-        let result = zkp.verify(&r1, &r2, &y1, &y2, &c, &s);
-        assert_eq!(result, true);
-    }
-
-    #[test]
-    fn test_toy_example_with_random() {
-        let alpha = BigUint::from(4u32);
-        let beta = BigUint::from(9u32);
-        let p = BigUint::from(23u32);
-        let q = BigUint::from(11u32);
-        let zkp = ZKP {
-            q: q.clone(),
-            p: p.clone(),
-            alpha: alpha.clone(),
-            beta: beta.clone(),
-        };
-
-        let x = BigUint::from(6u32);
-        let k = generate_random_below(&q);
-
-        let c = generate_random_below( &q);
+        let c = ZKP::generate_random_below( &q);
 
         let y1 = ZKP::exponentiate(&alpha, &x, &p);
         let y2 = ZKP::exponentiate(&beta, &x, &p);
@@ -162,6 +135,7 @@ mod test {
         let result = zkp.verify(&r1, &r2, &y1, &y2, &c, &s);
         assert_eq!(result, true);
     }
+
 
     #[test]
     fn test_1024_bits_constants() {
@@ -199,6 +173,23 @@ mod test {
         let alpha = BigUint::from_bytes_be(
             &hex::decode("AC4032EF4F2D9AE39DF30B5C8FFDAC506CDEBE7B89998CAF74866A08CFE4FFE3A6824A4E10B9A6F0DD921F01A70C4AFAAB739D7700C29F52C57DB17C620A8652BE5E9001A8D66AD7C17669101999024AF4D027275AC1348BB8A762D0521BC98AE247150422EA1ED409939D54DA7460CDB5F6C6B250717CBEF180EB34118E98D119529A45D6F834566E3025E316A330EFBB77A86F0C1AB15B051AE3D428C8F8ACB70A8137150B8EEB10E183EDD19963DDD9E263E4770589EF6AA21E7F5F2FF381B539CCE3409D13CD566AFBB48D6C019181E1BCFE94B30269EDFE72FE9B6AA4BD7B5A0F1C71CFFF4C19C418E1F6EC017981BC087F2A7065B384B890D3191F2BFA").expect("Invalid hex string"),
         );
+
+        // beta = alpha^i is also a generator
+        let beta = alpha.modpow(&ZKP::generate_random_below(&q), &p);
+
+        let zkp = ZKP {
+            q: q.clone(),
+            p: p.clone(),
+            alpha: alpha.clone(),
+            beta: beta.clone(),
+        };
+
+        let x = ZKP::generate_random_below(&q);
+        let k = ZKP::generate_random_below(&q);
+
+        let c = ZKP::generate_random_below(&q);
+
+
 
     }
 }
