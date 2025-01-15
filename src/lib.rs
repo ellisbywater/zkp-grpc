@@ -1,11 +1,12 @@
 use num_bigint::{BigUint, RandBigInt};
-
+use rand::distributions::Alphanumeric;
+use rand::Rng;
 
 pub struct ZKP {
-    q: BigUint,
-    p: BigUint,
-    alpha: BigUint,
-    beta: BigUint,
+    pub q: BigUint,
+    pub p: BigUint,
+    pub alpha: BigUint,
+    pub beta: BigUint,
 }
 
 impl ZKP {
@@ -55,6 +56,11 @@ impl ZKP {
         let beta = alpha.modpow(&ZKP::generate_random_below(&q), &p);
 
         (alpha, beta, p, q)
+    }
+
+    pub fn generate_random_string(size: usize) -> String {
+        let mut rng = rand::thread_rng();
+        rng.sample_iter(&Alphanumeric).take(size).map(char::from).collect()
     }
 }
 
