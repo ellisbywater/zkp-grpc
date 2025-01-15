@@ -6,7 +6,7 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RegisterRequest {
     #[prost(string, tag = "1")]
-    pub user: ::prost::alloc::string::String,
+    pub user_name: ::prost::alloc::string::String,
     #[prost(bytes = "vec", tag = "2")]
     pub y1: ::prost::alloc::vec::Vec<u8>,
     #[prost(bytes = "vec", tag = "3")]
