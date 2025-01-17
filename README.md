@@ -33,7 +33,7 @@ Open a new terminal on your machine and connect to the container:
 ```
 $ docker container ls
 CONTAINER ID   IMAGE                  COMMAND   CREATED          STATUS          PORTS     NAMES
-e84736012f9a   zkp-course-zkpserver   "bash"    20 minutes ago   Up 20 minutes             zkp-course_zkpserver_run_b1f3fa2cd94a
+e84736012f9a   zkp-zkpserver   "bash"    20 minutes ago   Up 20 minutes             zkp_zkpserver_run_b1f3fa2cd94a
 
 $ docker exec -it e84736012f9a /bin/bash
 ```
